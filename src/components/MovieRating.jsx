@@ -1,6 +1,6 @@
 import { Rating } from "@mui/material";
 
-function MovieRating({ type, value = 5, id, onChange }) {
+function MovieRating({ type, value = 5, id, onChange, required }) {
   if (type === "read") {
     return (
       <Rating
@@ -9,6 +9,7 @@ function MovieRating({ type, value = 5, id, onChange }) {
         readOnly
         value={value}
         max={10}
+        emptyIcon={""}
         sx={{ color: "yellow" }}
       />
     );
@@ -16,6 +17,7 @@ function MovieRating({ type, value = 5, id, onChange }) {
 
   return (
     <Rating
+      required={required}
       id={id}
       name="controlled"
       onChange={onChange}

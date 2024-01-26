@@ -7,18 +7,19 @@ import { getFirestore } from 'firebase/firestore'
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDKnlKDtt3ZnbvtHd8O1SC5CGtKSbTYNxU",
-    authDomain: "date-night-ratings.firebaseapp.com",
-    projectId: "date-night-ratings",
-    storageBucket: "date-night-ratings.appspot.com",
-    messagingSenderId: "370102290885",
-    appId: "1:370102290885:web:9e856444253f07719423ac",
-    measurementId: "G-Z2SNHJ25FB"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID,
+    measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const db = getFirestore(app);
+
 
 
 

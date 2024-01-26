@@ -2,7 +2,7 @@ import { Rating } from "@mui/material";
 import SportsBarIcon from "@mui/icons-material/SportsBar";
 import SportsBarOutlinedIcon from "@mui/icons-material/SportsBarOutlined";
 
-function BeerRating({ type, value = 5, id, onChange }) {
+function BeerRating({ type, value = 5, id, onChange, required }) {
   if (type === "read") {
     return (
       <Rating
@@ -13,7 +13,7 @@ function BeerRating({ type, value = 5, id, onChange }) {
         max={10}
         size="large"
         icon={<SportsBarIcon />}
-        emptyIcon={<SportsBarOutlinedIcon />}
+        emptyIcon={""}
         sx={{ color: "#F28E1C" }}
       />
     );
@@ -21,6 +21,7 @@ function BeerRating({ type, value = 5, id, onChange }) {
 
   return (
     <Rating
+      required={required}
       id={id}
       name="controlled"
       onChange={onChange}

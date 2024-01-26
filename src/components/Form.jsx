@@ -3,14 +3,15 @@ import BeerRating from "./BeerRating";
 import MovieRating from "./MovieRating";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { addData } from "../../firebase/firebaseOperations";
+import CloseButton from "./CloseButton";
 
-function Form() {
+function Form({ setFormOpen }) {
   const [movie, setMovie] = useState("");
-  const [ianMovie, setIanMovie] = useState(5);
-  const [avaMovie, setAvaMovie] = useState(5);
+  const [ianMovie, setIanMovie] = useState(0);
+  const [avaMovie, setAvaMovie] = useState(0);
   const [beverage, setBeverage] = useState("");
-  const [ianBev, setIanBev] = useState(5);
-  const [avaBev, setAvaBev] = useState(5);
+  const [ianBev, setIanBev] = useState(0);
+  const [avaBev, setAvaBev] = useState(0);
   const [notes, setNotes] = useState("");
 
   function handleSubmit(e) {
@@ -37,11 +38,13 @@ function Form() {
 
   return (
     <form
-      className="bg-zinc-700 flex flex-wrap justify-center w-[75%] mx-auto rounded-lg gap-5 mt-5 shadow-md p-3 md:gap-20"
+      className="bg-zinc-700 relative flex flex-wrap justify-center w-[75%] mx-auto rounded-lg gap-5 mt-5 shadow-md p-3 md:gap-20"
       onSubmit={handleSubmit}
     >
+      <CloseButton setFormOpen={setFormOpen} />
       <Box className="flex flex-col items-center gap-4">
         <TextField
+          required
           id="standard-basic"
           label="Movie"
           variant="standard"
@@ -53,6 +56,7 @@ function Form() {
         <Box>
           <Typography>Ian</Typography>
           <MovieRating
+            required
             id={"ian"}
             value={ianMovie}
             onChange={(e) => setIanMovie(e.target.value)}
@@ -61,6 +65,7 @@ function Form() {
         <Box>
           <Typography>Ava</Typography>
           <MovieRating
+            required
             id={"ava"}
             value={avaMovie}
             onChange={(e) => setAvaMovie(e.target.value)}
@@ -70,6 +75,7 @@ function Form() {
 
       <Box className="flex flex-col items-center gap-4">
         <TextField
+          required
           id="standard-basic"
           label="Beverage"
           variant="standard"
@@ -80,6 +86,7 @@ function Form() {
         <Box>
           <Typography>Ian</Typography>
           <BeerRating
+            required
             id={"ianBev"}
             value={ianBev}
             onChange={(e) => setIanBev(e.target.value)}
@@ -88,6 +95,7 @@ function Form() {
         <Box>
           <Typography>Ava</Typography>
           <BeerRating
+            required
             id={"avaBev"}
             value={avaBev}
             onChange={(e) => setAvaBev(e.target.value)}

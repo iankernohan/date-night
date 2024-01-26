@@ -2,26 +2,11 @@ import { useEffect, useState } from "react";
 import { getData } from "../../firebase/firebaseOperations";
 import Form from "./Form";
 import Ratings from "./Ratings";
-
-const seedData = {
-  beverage: {
-    name: "drank",
-    ratings: {
-      ian: 10,
-      ava: 10,
-    },
-  },
-  movie: {
-    name: "movie",
-    ratings: {
-      ian: 10,
-      ava: 10,
-    },
-  },
-};
+import AddButton from "./AddButton";
 
 function AppLayout() {
   const [ratings, setRatings] = useState([]);
+  const [formOpen, setFormOpen] = useState(false);
 
   useEffect(() => {
     async function getRatings() {
@@ -33,7 +18,11 @@ function AppLayout() {
 
   return (
     <>
-      <Form />
+      {formOpen ? (
+        <Form setFormOpen={setFormOpen} />
+      ) : (
+        <AddButton setFormOpen={setFormOpen} />
+      )}
       <Ratings ratings={ratings} />
     </>
   );
