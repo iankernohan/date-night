@@ -2,10 +2,10 @@ import { useState } from "react";
 import BeerRating from "./BeerRating";
 import MovieRating from "./MovieRating";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { addData } from "../../firebase/firebaseOperations";
+import { addData, getData } from "../../firebase/firebaseOperations";
 import CloseButton from "./CloseButton";
 
-function Form({ setFormOpen }) {
+function Form({ setFormOpen, setRatings }) {
   const [movie, setMovie] = useState("");
   const [ianMovie, setIanMovie] = useState(0);
   const [avaMovie, setAvaMovie] = useState(0);
@@ -14,7 +14,7 @@ function Form({ setFormOpen }) {
   const [avaBev, setAvaBev] = useState(0);
   const [notes, setNotes] = useState("");
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const data = {
       movie: {
@@ -32,8 +32,12 @@ function Form({ setFormOpen }) {
         },
       },
       notes,
+      date: new Date(),
     };
-    addData(data);
+    await addData(data);
+    const newData = await getData();
+    setRatings(newData);
+    setFormOpen(false);
   }
 
   return (
@@ -82,6 +86,7 @@ function Form({ setFormOpen }) {
           color="secondary"
           value={beverage}
           onChange={(e) => setBeverage(e.target.value)}
+          sx={{ input: { color: "white" } }}
         />
         <Box>
           <Typography>Ian</Typography>
@@ -110,6 +115,7 @@ function Form({ setFormOpen }) {
           color="success"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
+          sx={{ input: { color: "white" } }}
         />
       </Box>
 

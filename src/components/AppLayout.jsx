@@ -8,6 +8,17 @@ function AppLayout() {
   const [ratings, setRatings] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
 
+  function sortByDate(arr) {
+    const copy = [...arr];
+    function compareByDate(a, b) {
+      const dateA = new Date(a.date * 1000);
+      const dateB = new Date(b.date * 1000);
+      return dateB - dateA;
+    }
+    copy.sort(compareByDate);
+    return copy;
+  }
+
   useEffect(() => {
     async function getRatings() {
       const data = await getData();
@@ -19,11 +30,11 @@ function AppLayout() {
   return (
     <>
       {formOpen ? (
-        <Form setFormOpen={setFormOpen} />
+        <Form setFormOpen={setFormOpen} setRatings={setRatings} />
       ) : (
         <AddButton setFormOpen={setFormOpen} />
       )}
-      <Ratings ratings={ratings} />
+      <Ratings ratings={sortByDate(ratings)} />
     </>
   );
 }
