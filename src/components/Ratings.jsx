@@ -1,6 +1,7 @@
 import { deleteData } from "../../firebase/firebaseOperations";
 import BeerRating from "./BeerRating";
 import MovieRating from "./MovieRating";
+import { GoTrash } from "react-icons/go";
 
 function Ratings({ ratings }) {
   function handleDeleteData(id) {
@@ -15,9 +16,11 @@ function Ratings({ ratings }) {
       {ratings.map((rating) => (
         <section
           key={rating.id}
-          className="bg-zinc-700 flex flex-col gap-5 items-center mx-auto my-10 w-[75%] rounded-lg p-5"
+          className="bg-zinc-700 relative flex flex-col gap-5 items-center mx-auto my-10 w-[75%] rounded-lg p-5"
         >
-          <div>{new Date(rating.date.seconds * 1000).toLocaleDateString()}</div>
+          <div className="border py-1 px-2">
+            {new Date(rating.date.seconds * 1000).toLocaleDateString()}
+          </div>
           <div>
             <p className="text-center text-sm">MOVIE</p>
             <h2 className="text-center text-lg font-light underline underline-offset-2">
@@ -40,8 +43,13 @@ function Ratings({ ratings }) {
             <BeerRating type={"read"} value={rating.beverage.ratings.ava} />
           </div>
 
-          <div>
-            <button onClick={() => handleDeleteData(rating.id)}>Delete</button>
+          <div className="absolute top-7 left-5">
+            <button
+              className="text-black active:text-white"
+              onClick={() => handleDeleteData(rating.id)}
+            >
+              <GoTrash />
+            </button>
           </div>
         </section>
       ))}

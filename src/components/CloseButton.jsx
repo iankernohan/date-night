@@ -5,7 +5,7 @@ function CloseButton({ setFormOpen }) {
     <Button
       type="text"
       onClick={() => setFormOpen(false)}
-      sx={{ position: "absolute", bottom: "0", right: "0" }}
+      sx={{ position: "absolute", top: "10px", left: "0" }}
     >
       X
     </Button>

@@ -5,3 +5,6 @@ function App() {
 }
 
 export default App;
+
+//Deploy:
+//firebase deploy --only hosting

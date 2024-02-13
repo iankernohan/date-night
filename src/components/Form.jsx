@@ -42,7 +42,7 @@ function Form({ setFormOpen, setRatings }) {
 
   return (
     <form
-      className="bg-zinc-700 relative flex flex-wrap justify-center w-[75%] mx-auto rounded-lg gap-5 mt-5 shadow-md p-3 md:gap-20"
+      className="bg-zinc-700 relative grid justify-center w-[75%] mx-auto rounded-lg gap-5 mt-5 shadow-md p-3 md:gap-20"
       onSubmit={handleSubmit}
     >
       <CloseButton setFormOpen={setFormOpen} />
@@ -108,7 +108,7 @@ function Form({ setFormOpen, setRatings }) {
         </Box>
       </Box>
 
-      <Box>
+      <Box className="mx-auto">
         <TextField
           multiline
           label="Notes"
