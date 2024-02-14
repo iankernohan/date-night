@@ -18,7 +18,7 @@ function Ratings({ ratings }) {
           key={rating.id}
           className="bg-zinc-700 relative flex flex-col gap-5 items-center mx-auto my-10 w-[75%] rounded-lg p-5"
         >
-          <div className="border py-1 px-2">
+          <div className="border py-1 px-2 rounded-full">
             {new Date(rating.date.seconds * 1000).toLocaleDateString()}
           </div>
           <div>
