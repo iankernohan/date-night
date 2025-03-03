@@ -4,6 +4,7 @@ import MovieRating from "./MovieRating";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { addData, getData } from "../../firebase/firebaseOperations";
 import CloseButton from "./CloseButton";
+import FoodRating from "./FoodRating";
 
 function Form({ setFormOpen, setRatings }) {
   const [movie, setMovie] = useState("");
@@ -12,6 +13,11 @@ function Form({ setFormOpen, setRatings }) {
   const [beverage, setBeverage] = useState("");
   const [ianBev, setIanBev] = useState(0);
   const [avaBev, setAvaBev] = useState(0);
+  const [place, setPlace] = useState("");
+  const [ianFood, setIanFood] = useState("");
+  const [ianFoodRating, setIanFoodRating] = useState(0);
+  const [avaFood, setAvaFood] = useState("");
+  const [avaFoodRating, setAvaFoodRating] = useState(0);
   const [notes, setNotes] = useState("");
 
   async function handleSubmit(e) {
@@ -29,6 +35,17 @@ function Form({ setFormOpen, setRatings }) {
         ratings: {
           ian: ianBev,
           ava: avaBev,
+        },
+      },
+      food: {
+        place: place,
+        ian: {
+          meal: ianFood,
+          rating: ianFoodRating,
+        },
+        ava: {
+          meal: avaFood,
+          rating: avaFoodRating,
         },
       },
       notes,
@@ -104,6 +121,57 @@ function Form({ setFormOpen, setRatings }) {
             id={"avaBev"}
             value={avaBev}
             onChange={(e) => setAvaBev(e.target.value)}
+          />
+        </Box>
+      </Box>
+
+      <Box className="flex flex-col items-center gap-4">
+        <TextField
+          required
+          id="standard-basic"
+          label="Food Origin"
+          variant="standard"
+          color="secondary"
+          value={place}
+          onChange={(e) => setPlace(e.target.value)}
+          sx={{ input: { color: "white" } }}
+        />
+        <Box>
+          <Typography>Ian</Typography>
+          <TextField
+            required
+            id="standard-basic"
+            label="Meal"
+            variant="standard"
+            color="secondary"
+            value={ianFood}
+            onChange={(e) => setIanFood(e.target.value)}
+            sx={{ input: { color: "white" } }}
+          />
+          <FoodRating
+            required
+            id={"ianFoodRating"}
+            value={ianFoodRating}
+            onChange={(e) => setIanFoodRating(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography>Ava</Typography>
+          <TextField
+            required
+            id="standard-basic"
+            label="Meal"
+            variant="standard"
+            color="secondary"
+            value={avaFood}
+            onChange={(e) => setAvaFood(e.target.value)}
+            sx={{ input: { color: "white" } }}
+          />
+          <FoodRating
+            required
+            id={"avaFoodRating"}
+            value={avaFoodRating}
+            onChange={(e) => setAvaFoodRating(e.target.value)}
           />
         </Box>
       </Box>

@@ -1,5 +1,6 @@
 import { deleteData } from "../../firebase/firebaseOperations";
 import BeerRating from "./BeerRating";
+import FoodRating from "./FoodRating";
 import MovieRating from "./MovieRating";
 import { GoTrash } from "react-icons/go";
 
@@ -11,6 +12,60 @@ function Ratings({ ratings }) {
     }
   }
 
+  function formatDateString(dateString) {
+    // Try parsing using Date.parse() for better cross-browser compatibility
+    let date = new Date(dateString);
+
+    // Handle Safari parsing issues by attempting a fallback
+    if (isNaN(date.getTime())) {
+      // Try converting from MM/DD/YYYY or other formats to YYYY-MM-DD (ISO format)
+      const parts = dateString.split(/[/-]/); // Split on slashes or dashes
+      if (parts.length === 3) {
+        let [month, day, year] = parts.map((p) => p.padStart(2, "0")); // Ensure two-digit parts
+        if (year.length === 4) {
+          date = new Date(`${year}-${month}-${day}T00:00:00Z`); // Convert to ISO format
+        }
+      }
+    }
+
+    // If it's still invalid, throw an error
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid date string");
+    }
+
+    // Format the date properly
+    const options = {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+
+    const [weekday, month, day, year] = formattedDate
+      .replace(",", "")
+      .split(" ");
+
+    const dayNumber = parseInt(day, 10);
+    const suffix = getDaySuffix(dayNumber);
+
+    return `${weekday}, ${month} ${dayNumber}${suffix}, ${year}`;
+  }
+
+  function getDaySuffix(day) {
+    if (day >= 11 && day <= 13) return "th";
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  }
+
   return (
     <main>
       {ratings.map((rating) => (
@@ -19,7 +74,9 @@ function Ratings({ ratings }) {
           className="bg-zinc-700 relative flex flex-col gap-5 items-center mx-auto my-10 w-[75%] rounded-lg p-5"
         >
           <div className="border py-1 px-2 rounded-full">
-            {new Date(rating.date.seconds * 1000).toLocaleDateString()}
+            {formatDateString(
+              new Date(rating.date.seconds * 1000).toLocaleDateString()
+            )}
           </div>
           <div>
             <p className="text-center text-sm">MOVIE</p>
@@ -42,6 +99,31 @@ function Ratings({ ratings }) {
             <h3>Ava</h3>
             <BeerRating type={"read"} value={rating.beverage.ratings.ava} />
           </div>
+
+          {rating.food ? (
+            <div>
+              <p className="text-center text-sm">FOOD</p>
+              <div className="flex items-center gap-2">
+                <p>From: </p>
+                <h2 className="text-center text-lg font-light">
+                  {rating.food.place}
+                </h2>
+              </div>
+              <h3>Ian</h3>
+              <p className="text-center">{rating.food.ian.meal}</p>
+              <FoodRating type={"read"} value={rating.food.ian.rating} />
+              <h3>Ava</h3>
+              <p className="text-center">{rating.food.ava.meal}</p>
+              <FoodRating type={"read"} value={rating.food.ava.rating} />
+            </div>
+          ) : (
+            <div>
+              <p className="text-center text-sm">FOOD</p>
+              <h2 className="text-center text-lg font-light">
+                No meals were eaten... :(
+              </h2>
+            </div>
+          )}
 
           <div className="absolute top-7 left-5">
             <button
