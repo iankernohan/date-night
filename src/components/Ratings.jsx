@@ -12,53 +12,11 @@ function Ratings({ ratings }) {
     }
   }
 
-  function formatDateString(dateString) {
-    let date = new Date(dateString);
-
-    if (isNaN(date.getTime())) {
-      const parts = dateString.split(/[/-]/);
-      if (parts.length === 3) {
-        let [month, day, year] = parts.map((p) => p.padStart(2, "0"));
-        if (year.length === 4) {
-          date = new Date(`${year}-${month}-${day}T00:00:00Z`);
-        }
-      }
-    }
-
-    if (isNaN(date.getTime())) {
-      throw new Error("Invalid date string");
-    }
-
-    const options = {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    };
-    const formattedDate = date.toLocaleDateString("en-US", options);
-
-    const [weekday, month, day, year] = formattedDate
-      .replace(",", "")
-      .split(" ");
-
-    const dayNumber = parseInt(day, 10);
-    const suffix = getDaySuffix(dayNumber);
-
-    return `${weekday}, ${month} ${dayNumber}${suffix}, ${year}`;
-  }
-
-  function getDaySuffix(day) {
-    if (day >= 11 && day <= 13) return "th";
-    switch (day % 10) {
-      case 1:
-        return "st";
-      case 2:
-        return "nd";
-      case 3:
-        return "rd";
-      default:
-        return "th";
-    }
+  function formatDateString(date) {
+    return date
+      .split("")
+      .splice(0, date.indexOf(":") - 3)
+      .join("");
   }
 
   return (
@@ -70,7 +28,7 @@ function Ratings({ ratings }) {
         >
           <div className="border py-1 px-2 rounded-full">
             {formatDateString(
-              new Date(rating.date.seconds * 1000).toLocaleDateString()
+              new Date(rating.date.seconds * 1000).toUTCString()
             )}
           </div>
           <div>
