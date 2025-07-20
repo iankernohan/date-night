@@ -13,27 +13,22 @@ function Ratings({ ratings }) {
   }
 
   function formatDateString(dateString) {
-    // Try parsing using Date.parse() for better cross-browser compatibility
     let date = new Date(dateString);
 
-    // Handle Safari parsing issues by attempting a fallback
     if (isNaN(date.getTime())) {
-      // Try converting from MM/DD/YYYY or other formats to YYYY-MM-DD (ISO format)
-      const parts = dateString.split(/[/-]/); // Split on slashes or dashes
+      const parts = dateString.split(/[/-]/);
       if (parts.length === 3) {
-        let [month, day, year] = parts.map((p) => p.padStart(2, "0")); // Ensure two-digit parts
+        let [month, day, year] = parts.map((p) => p.padStart(2, "0"));
         if (year.length === 4) {
-          date = new Date(`${year}-${month}-${day}T00:00:00Z`); // Convert to ISO format
+          date = new Date(`${year}-${month}-${day}T00:00:00Z`);
         }
       }
     }
 
-    // If it's still invalid, throw an error
     if (isNaN(date.getTime())) {
       throw new Error("Invalid date string");
     }
 
-    // Format the date properly
     const options = {
       weekday: "long",
       month: "long",
@@ -74,9 +69,7 @@ function Ratings({ ratings }) {
           className="bg-zinc-700 relative flex flex-col gap-5 items-center mx-auto my-10 w-[75%] rounded-lg p-5"
         >
           <div className="border py-1 px-2 rounded-full">
-            {formatDateString(
-              new Date(rating.date.seconds * 1000).toLocaleDateString()
-            )}
+            {new Date(rating.date.seconds * 1000).toLocaleDateString()}
           </div>
           <div>
             <p className="text-center text-sm">MOVIE</p>
